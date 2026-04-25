@@ -1,28 +1,252 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>PBG GLOBAL EXIM</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PBG Global Exim — Global Exporter of Textiles & Herbal Products</title>
+  <meta name="description" content="PBG Global Exim — India-based exporter of Cotton T-Shirts, Baby Garments, Towels, Ashwagandha and Moringa Powder to global markets." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div id="app">
 
-<h1>PBG GLOBAL EXIM</h1>
-<p>Global Exporter of Textiles, Garments & Herbal Products</p>
+    <!-- NAV -->
+    <nav class="nav" :class="{ 'nav--scrolled': scrolled }">
+      <div class="nav__inner container">
+        <a href="#hero" class="nav__brand" @click.prevent="scrollTo('hero')">
+          <img src="CompanyLogo.jpeg" alt="PBG Global Exim Logo" class="nav__logo-img" />
+        </a>
+        <ul class="nav__links">
+          <li v-for="link in navLinks" :key="link.id">
+            <a :href="'#' + link.id" @click.prevent="scrollTo(link.id)">{{ link.label }}</a>
+          </li>
+        </ul>
+        <a href="mailto:pbgglobalexim@gmail.com" class="button button--sm">Get a Quote</a>
+        <button class="nav__burger" @click="menuOpen = !menuOpen" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <!-- Mobile menu -->
+      <div class="nav__mobile" :class="{ 'nav__mobile--open': menuOpen }">
+        <a v-for="link in navLinks" :key="link.id"
+           :href="'#' + link.id"
+           @click.prevent="scrollTo(link.id); menuOpen = false">
+          {{ link.label }}
+        </a>
+        <a href="mailto:pbgglobalexim@gmail.com" class="button" style="margin-top:1rem;">Get a Quote</a>
+      </div>
+    </nav>
 
-<h2>Company Overview</h2>
-<p>PBG GLOBAL EXIM is an India-based export company...</p>
+    <!-- HERO -->
+    <section id="hero" class="hero">
+      <div class="hero__content container">
+        <img src="CompanyLogo.jpeg" alt="PBG Global Exim Logo" class="hero__logo" />
+        <p class="eyebrow">India-Based Global Exporter</p>
+        <h1>PBG <span class="accent">Global</span> Exim</h1>
+        <p class="hero__text">
+          Premium Textiles, Garments &amp; Herbal Products delivered to global markets
+          with reliability, competitive pricing, and strict quality control.
+        </p>
+        <div class="hero__cta">
+          <a href="mailto:pbgglobalexim@gmail.com" class="button">Contact Us</a>
+          <a href="#products" class="button button--outline" @click.prevent="scrollTo('products')">View Products</a>
+        </div>
+        <div class="hero__stats">
+          <div v-for="stat in stats" :key="stat.label" class="hero__stat">
+            <span class="hero__stat-value">{{ stat.value }}</span>
+            <span class="hero__stat-label">{{ stat.label }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<h2>Products</h2>
-<ul>
-  <li>Cotton T-Shirts</li>
-  <li>Newborn Baby Garments</li>
-  <li>Towels</li>
-  <li>Ashwagandha</li>
-  <li>Moringa Powder</li>
-</ul>
+    <!-- OVERVIEW -->
+    <section id="about" class="section section--alt">
+      <div class="container">
+        <p class="eyebrow">Who We Are</p>
+        <h2>Company Overview</h2>
+        <p class="section__lead">
+          PBG Global Exim is an India-based export company committed to delivering high-quality
+          textile products and herbal commodities to global markets. We combine reliable sourcing,
+          strict quality control, and competitive pricing to meet international buyer expectations.
+        </p>
+        <p class="section__lead" style="margin-top:1rem;">
+          Our focus is on building long-term partnerships through trust, consistency, and
+          professional service.
+        </p>
 
-<h2>Contact</h2>
-<p>+91 7558260860</p>
-<p>pbgglobalexim@gmail.com</p>
+        <!-- Company Details Table -->
+        <div class="details-table">
+          <div v-for="detail in companyDetails" :key="detail.label" class="details-table__row">
+            <span class="details-table__label">{{ detail.label }}</span>
+            <span class="details-table__value">{{ detail.value }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- PRODUCTS -->
+    <section id="products" class="section">
+      <div class="container">
+        <p class="eyebrow">What We Export</p>
+        <h2>Our Product Portfolio</h2>
+
+        <!-- Category Filter -->
+        <div class="filter-bar">
+          <button
+            v-for="cat in categories"
+            :key="cat"
+            class="filter-btn"
+            :class="{ 'filter-btn--active': activeCategory === cat }"
+            @click="activeCategory = cat">
+            {{ cat }}
+          </button>
+        </div>
+
+        <!-- Product Cards -->
+        <div class="grid">
+          <div
+            v-for="product in filteredProducts"
+            :key="product.name"
+            class="card card--product"
+            :class="{ 'card--herbal': product.category === 'Herbal' }">
+            <div class="card__icon">{{ product.icon }}</div>
+            <span class="card__tag">{{ product.category }}</span>
+            <h3>{{ product.name }}</h3>
+            <ul class="card__list">
+              <li v-for="item in product.items" :key="item">{{ item }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MARKETS -->
+    <section id="markets" class="section section--alt">
+      <div class="container">
+        <p class="eyebrow">Global Reach</p>
+        <h2>Export Markets</h2>
+        <div class="grid grid--markets">
+          <div v-for="market in exportMarkets" :key="market.region" class="card card--market">
+            <span class="card__flag">{{ market.flag }}</span>
+            <h3>{{ market.region }}</h3>
+            <p>{{ market.countries }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STRENGTHS -->
+    <section id="strengths" class="section">
+      <div class="container">
+        <p class="eyebrow">Why Choose Us</p>
+        <h2>Our Strengths</h2>
+        <div class="grid">
+          <div v-for="strength in strengths" :key="strength.title" class="card card--strength">
+            <span class="card__icon">{{ strength.icon }}</span>
+            <h3>{{ strength.title }}</h3>
+            <p>{{ strength.desc }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUALITY + PACKAGING -->
+    <section id="quality" class="section section--alt">
+      <div class="container two-col">
+        <div>
+          <p class="eyebrow">Standards</p>
+          <h2>Quality Assurance</h2>
+          <ul class="check-list">
+            <li v-for="q in qualityPoints" :key="q">{{ q }}</li>
+          </ul>
+        </div>
+        <div>
+          <p class="eyebrow">Logistics</p>
+          <h2>Packaging &amp; Logistics</h2>
+          <ul class="check-list">
+            <li v-for="p in packagingPoints" :key="p">{{ p }}</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISION & MISSION -->
+    <section id="vision" class="section">
+      <div class="container two-col">
+        <div class="card card--vision">
+          <span class="card__icon">🔭</span>
+          <h2>Vision</h2>
+          <p>To become a globally recognized export company known for quality, reliability, and diversified product excellence.</p>
+        </div>
+        <div class="card card--vision">
+          <span class="card__icon">🎯</span>
+          <h2>Mission</h2>
+          <p>To deliver superior products and build strong international relationships through transparency, consistency, and customer satisfaction.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section section--alt">
+      <div class="container contact-grid">
+        <div>
+          <p class="eyebrow">Get In Touch</p>
+          <h2>Contact Us</h2>
+          <p class="section__lead">Ready to place an inquiry or learn more about our products? Reach out directly.</p>
+          <div class="contact-info">
+            <div v-for="info in contactInfo" :key="info.label" class="contact-info__row">
+              <span class="contact-info__icon">{{ info.icon }}</span>
+              <div>
+                <span class="contact-info__label">{{ info.label }}</span>
+                <a :href="info.href" class="contact-info__value">{{ info.value }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form class="contact-form" @submit.prevent="submitForm">
+          <h3>Send an Inquiry</h3>
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input id="name" v-model="form.name" type="text" placeholder="John Smith" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input id="email" v-model="form.email" type="email" placeholder="john@company.com" required />
+          </div>
+          <div class="form-group">
+            <label for="product">Product Interest</label>
+            <select id="product" v-model="form.product">
+              <option value="">Select a product...</option>
+              <option v-for="p in allProducts" :key="p" :value="p">{{ p }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" v-model="form.message" rows="4" placeholder="Tell us about your requirements, MOQ, destination..."></textarea>
+          </div>
+          <button type="submit" class="button" style="width:100%;">Send Inquiry</button>
+          <p v-if="formSent" class="form-success">✓ Thank you! We'll get back to you shortly.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <img src="CompanyLogo.jpeg" alt="PBG Global Exim Logo" style="height:56px;width:auto;margin-bottom:0.75rem;border-radius:8px;" />
+        <p>PBG Global Exim &mdash; Pune, India</p>
+        <p>GST: 27ABWPG5074H2Z6 &nbsp;|&nbsp; +91 7558260860 &nbsp;|&nbsp; pbgglobalexim@gmail.com</p>
+        <p style="margin-top:1.5rem;font-size:0.8rem;">&copy; {{ currentYear }} PBG Global Exim. All rights reserved.</p>
+      </div>
+    </footer>
+
+  </div><!-- #app -->
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
