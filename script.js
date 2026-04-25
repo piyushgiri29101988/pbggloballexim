@@ -54,6 +54,10 @@ createApp({
         name: 'Cotton T-Shirts',
         category: 'Textiles',
         icon: '👕',
+        images: [
+          { src: 'tshirt.jpeg', alt: 'Cotton T-shirts ready for export' },
+          { src: 'tshirt contact.jpeg', alt: 'Premium T-shirt styles for global buyers' },
+        ],
         items: [
           'Round Neck Cotton T-Shirts',
           'Premium Round Neck T-Shirts',
@@ -65,6 +69,10 @@ createApp({
         name: 'Newborn Baby Garments',
         category: 'Textiles',
         icon: '🍼',
+        images: [
+          { src: 'new born baby.jpeg', alt: 'Newborn baby garments collection' },
+          { src: 'newborn baby clothes.jpeg', alt: 'Soft baby clothing for export orders' },
+        ],
         items: [
           'Baby Rompers',
           'Bodysuits',
@@ -87,6 +95,10 @@ createApp({
         name: 'Ashwagandha',
         category: 'Herbal',
         icon: '🌿',
+        images: [
+          { src: 'ashwagandha contact.jpeg', alt: 'Ashwagandha product for export supply' },
+          { src: 'ashwagandha contact.jpeg', alt: 'Ashwagandha packaging and quality view' },
+        ],
         items: [
           'High-quality Dried Ashwagandha',
           'Powder / Raw Form Available',
