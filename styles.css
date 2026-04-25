@@ -529,6 +529,28 @@ p  { color: var(--muted); }
 
 .form-group select option { background: var(--surface); }
 
+.product-checkboxes {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.2rem;
+}
+
+.product-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--text);
+  font-size: 0.9rem;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(148,163,184,.2);
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.7rem;
+}
+
+.product-checkbox input {
+  accent-color: var(--accent);
+}
+
 .form-help {
   display: block;
   margin-top: 0.45rem;
