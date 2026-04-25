@@ -154,18 +154,69 @@ createApp({
     ];
 
     /* ── Contact Form ──────────────────────────────────── */
-    const form     = ref({ name: '', email: '', product: '', message: '' });
-    const formSent = ref(false);
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/your_form_id';
 
-    function submitForm() {
+    const form          = ref({ name: '', email: '', product: '', message: '' });
+    const formSent      = ref(false);
+    const formError     = ref('');
+    const formSubmitting = ref(false);
+
+    async function submitForm() {
+      formError.value = '';
+      formSent.value = false;
+
       const { name, email, product, message } = form.value;
-      const subject = encodeURIComponent(`Inquiry from ${name}${product ? ' – ' + product : ''}`);
-      const body    = encodeURIComponent(
-        `Name: ${name}\nEmail: ${email}\nProduct: ${product}\n\n${message}`
-      );
-      window.location.href = `mailto:pbgglobalexim@gmail.com?subject=${subject}&body=${body}`;
-      formSent.value = true;
-      form.value = { name: '', email: '', product: '', message: '' };
+      const inquiry = {
+        name,
+        email,
+        product,
+        message,
+        submittedAt: new Date().toISOString(),
+      };
+
+      try {
+        const storageKey = 'pbg_inquiries';
+        const saved = JSON.parse(localStorage.getItem(storageKey) || '[]');
+        saved.push(inquiry);
+        localStorage.setItem(storageKey, JSON.stringify(saved));
+      } catch (error) {
+        console.warn('Could not save inquiry to localStorage:', error);
+      }
+
+      if (FORMSPREE_ENDPOINT.includes('your_form_id')) {
+        formError.value = 'Add your Formspree form URL in script.js to activate remote submissions.';
+        return;
+      }
+
+      formSubmitting.value = true;
+
+      try {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            product,
+            message,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Form submission failed with status ${response.status}`);
+        }
+
+        formSent.value = true;
+        form.value = { name: '', email: '', product: '', message: '' };
+      } catch (error) {
+        console.error('Form submission failed:', error);
+        formError.value = 'Could not send inquiry right now. Please try again in a moment.';
+      } finally {
+        formSubmitting.value = false;
+      }
     }
 
     /* ── Footer ────────────────────────────────────────── */
@@ -180,7 +231,7 @@ createApp({
       strengths,
       qualityPoints, packagingPoints,
       contactInfo,
-      form, formSent, submitForm,
+      form, formSent, formError, formSubmitting, submitForm,
       currentYear,
     };
   },

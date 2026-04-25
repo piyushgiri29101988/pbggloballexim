@@ -228,7 +228,8 @@
             <label for="message">Message</label>
             <textarea id="message" v-model="form.message" rows="4" placeholder="Tell us about your requirements, MOQ, destination..."></textarea>
           </div>
-          <button type="submit" class="button" style="width:100%;">Send Inquiry</button>
+          <button type="submit" class="button" style="width:100%;" :disabled="formSubmitting">{{ formSubmitting ? 'Sending...' : 'Send Inquiry' }}</button>
+          <p v-if="formError" class="form-error">{{ formError }}</p>
           <p v-if="formSent" class="form-success">✓ Thank you! We'll get back to you shortly.</p>
         </form>
       </div>

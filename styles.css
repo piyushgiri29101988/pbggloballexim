@@ -159,6 +159,12 @@ p  { color: var(--muted); }
   background: var(--accent-dark);
 }
 
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .button--sm  { padding: 0.55rem 1.1rem; font-size: 0.82rem; }
 
 .button--outline {
@@ -447,6 +453,13 @@ p  { color: var(--muted); }
 .form-success {
   margin-top: 0.75rem;
   color: var(--green);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.form-error {
+  margin-top: 0.75rem;
+  color: #fda4af;
   font-weight: 600;
   font-size: 0.9rem;
 }
