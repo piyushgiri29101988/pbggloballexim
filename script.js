@@ -180,7 +180,7 @@ createApp({
     /* ── Contact Form ──────────────────────────────────── */
     const GOOGLE_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyR8gkOPKkf1SRc_LNMbL9gulhD92ZrFnyn59iIkZB_UYuhmxCLXi6Jd9VlCWhTTp5E/exec';
 
-    const form          = ref({ name: '', email: '', product: '', message: '' });
+    const form          = ref({ name: '', email: '', products: [], message: '' });
     const formSent      = ref(false);
     const formError     = ref('');
     const formSubmitting = ref(false);
@@ -189,11 +189,13 @@ createApp({
       formError.value = '';
       formSent.value = false;
 
-      const { name, email, product, message } = form.value;
+      const { name, email, products, message } = form.value;
+      const product = products.join(', ');
       const inquiry = {
         name,
         email,
         product,
+        products,
         message,
         submittedAt: new Date().toISOString(),
       };
@@ -236,7 +238,7 @@ createApp({
         }
 
         formSent.value = true;
-        form.value = { name: '', email: '', product: '', message: '' };
+        form.value = { name: '', email: '', products: [], message: '' };
       } catch (error) {
         console.error('Form submission failed:', error);
         formError.value = 'Could not send inquiry right now. Please try again in a moment.';

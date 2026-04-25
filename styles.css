@@ -529,6 +529,13 @@ p  { color: var(--muted); }
 
 .form-group select option { background: var(--surface); }
 
+.form-help {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
 .form-success {
   margin-top: 0.75rem;
   color: var(--green);
