@@ -85,6 +85,9 @@ createApp({
         name: 'Towels',
         category: 'Textiles',
         icon: '🛁',
+        images: [
+          { src: 'towel.jpeg', alt: 'Export quality towels for textile buyers' },
+        ],
         items: [
           'Bath Towels (Various GSM)',
           'Kitchen Towels',
@@ -124,6 +127,15 @@ createApp({
     );
 
     const allProducts = products.map(p => p.name);
+    const activeImage = ref(null);
+
+    function openImage(image) {
+      activeImage.value = image;
+    }
+
+    function closeImage() {
+      activeImage.value = null;
+    }
 
     /* ── Export Markets ────────────────────────────────── */
     const exportMarkets = [
@@ -240,7 +252,7 @@ createApp({
       scrolled, menuOpen, navLinks, scrollTo,
       stats,
       companyDetails,
-      categories, activeCategory, filteredProducts, allProducts,
+      categories, activeCategory, filteredProducts, allProducts, activeImage, openImage, closeImage,
       exportMarkets,
       strengths,
       qualityPoints, packagingPoints,

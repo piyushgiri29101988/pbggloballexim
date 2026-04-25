@@ -116,12 +116,17 @@
             <div class="card__icon">{{ product.icon }}</div>
             <span class="card__tag">{{ product.category }}</span>
             <div v-if="product.images && product.images.length" class="product-gallery">
-              <img
+              <button
                 v-for="image in product.images"
                 :key="image.src + image.alt"
-                :src="image.src"
-                :alt="image.alt"
-                class="product-gallery__image" />
+                type="button"
+                class="product-gallery__item"
+                @click="openImage(image)">
+                <img
+                  :src="image.src"
+                  :alt="image.alt"
+                  class="product-gallery__image" />
+              </button>
             </div>
             <h3>{{ product.name }}</h3>
             <ul class="card__list">
@@ -252,6 +257,14 @@
         <p style="margin-top:1.5rem;font-size:0.8rem;">&copy; {{ currentYear }} PBG Global Exim. All rights reserved.</p>
       </div>
     </footer>
+
+    <div v-if="activeImage" class="lightbox" @click.self="closeImage">
+      <button type="button" class="lightbox__close" @click="closeImage" aria-label="Close image view">×</button>
+      <div class="lightbox__content">
+        <img :src="activeImage.src" :alt="activeImage.alt" class="lightbox__image" />
+        <p class="lightbox__caption">{{ activeImage.alt }}</p>
+      </div>
+    </div>
 
   </div><!-- #app -->
 
