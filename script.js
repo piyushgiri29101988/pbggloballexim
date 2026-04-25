@@ -154,7 +154,7 @@ createApp({
     ];
 
     /* ── Contact Form ──────────────────────────────────── */
-    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/your_form_id';
+    const GOOGLE_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/your_script_id/exec';
 
     const form          = ref({ name: '', email: '', product: '', message: '' });
     const formSent      = ref(false);
@@ -183,26 +183,28 @@ createApp({
         console.warn('Could not save inquiry to localStorage:', error);
       }
 
-      if (FORMSPREE_ENDPOINT.includes('your_form_id')) {
-        formError.value = 'Add your Formspree form URL in script.js to activate remote submissions.';
+      if (GOOGLE_SCRIPT_ENDPOINT.includes('your_script_id')) {
+        formError.value = 'Add your Google Apps Script web app URL in script.js to activate Google Sheet submissions.';
         return;
       }
 
       formSubmitting.value = true;
 
       try {
-        const response = await fetch(FORMSPREE_ENDPOINT, {
+        const payload = new URLSearchParams({
+          name,
+          email,
+          product,
+          message,
+          submittedAt: inquiry.submittedAt,
+        });
+
+        const response = await fetch(GOOGLE_SCRIPT_ENDPOINT, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
           },
-          body: JSON.stringify({
-            name,
-            email,
-            product,
-            message,
-          }),
+          body: payload.toString(),
         });
 
         if (!response.ok) {
