@@ -178,7 +178,7 @@ createApp({
     ];
 
     /* ── Contact Form ──────────────────────────────────── */
-    const GOOGLE_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/your_script_id/exec';
+    const GOOGLE_SCRIPT_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyR8gkOPKkf1SRc_LNMbL9gulhD92ZrFnyn59iIkZB_UYuhmxCLXi6Jd9VlCWhTTp5E/exec';
 
     const form          = ref({ name: '', email: '', product: '', message: '' });
     const formSent      = ref(false);
